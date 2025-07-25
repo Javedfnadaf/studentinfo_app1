@@ -1,4 +1,4 @@
-student registration form  create successfully
-signup
-login
+student registration form  create successfully,
+signup,
+login,
 register
