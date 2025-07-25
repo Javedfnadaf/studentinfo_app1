@@ -1,4 +1,4 @@
 student registration form  create successfully,
-signup,
-login,
-register
+1.signup,
+2.login,
+3.register
