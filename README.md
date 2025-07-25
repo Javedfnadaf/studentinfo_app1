@@ -1,1 +1,4 @@
-studentinfo signup form updated successfully
+student registration form  create successfully
+signup
+login
+register
