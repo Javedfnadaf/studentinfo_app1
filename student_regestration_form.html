@@ -34,7 +34,7 @@
 
     .form-group label {
       width: 200px;
-      font-weight: bold;
+      font-weight: ;
     }
 
     .form-group input,
@@ -49,7 +49,7 @@
     .form-group input[type="radio"],
     .form-group input[type="checkbox"] {
       margin-left: 10px;
-      margin-right: 5px;
+      margin-right: 15px;
     }
 
     .dob-inputs input {
@@ -87,7 +87,11 @@
     }
 
     .btn-submit button:hover {
-      background-color:;
+      background-color: darkgreen;
+    }
+
+    .error {
+      border: 2px solid red !important;
     }
   </style>
 </head>
@@ -95,59 +99,59 @@
 
   <h2>Student Enrolment Form</h2>
 
-  <form>
+  <form id="registrationForm">
     <div class="form-group">
       <label>Roll No.:</label>
-      <input type="text" placeholder="Enter Roll Number">
+      <input type="text" name="roll" placeholder="Enter Roll Number">
     </div>
 
     <div class="form-group name-inputs">
       <label>Student Name:</label>
-      <input type="text" placeholder="First Name">
-      <input type="text" placeholder="Last Name">
+      <input type="text" name="fname" placeholder="First Name">
+      <input type="text" name="lname" placeholder="Last Name">
     </div>
 
     <div class="form-group">
-      <label>Father's Name:</label>
-      <input type="text" placeholder="Enter Father's Name">
+      <label>Father Name:</label>
+      <input type="text" name="father" placeholder="Enter Father's Name">
     </div>
 
     <div class="form-group dob-inputs">
       <label>Date of Birth:</label>
-      <input type="text" placeholder="Day">
-      <input type="text" placeholder="Month">
-      <input type="text" placeholder="Year">
+      <input type="text" name="day" placeholder="Day">
+      <input type="text" name="month" placeholder="Month">
+      <input type="text" name="year" placeholder="Year">
     </div>
 
     <div class="form-group phone-inputs">
       <label>Mobile No.:</label>
       <input type="text" value="+91" readonly>
-      <input type="text" placeholder="Enter Mobile Number">
+      <input type="text" name="mobile" placeholder="Enter Mobile Number">
     </div>
 
     <div class="form-group">
       <label>Email ID:</label>
-      <input type="email" placeholder="Enter Email">
+      <input type="email" name="email" placeholder="Enter Email">
     </div>
 
     <div class="form-group">
       <label>Gender:</label>
-      <label><input type="radio" name="gender"> Male</label>
-      <label><input type="radio" name="gender"> Female</label>
+      <label><input type="radio" name="gender" value="Male"> Male</label>
+      <label><input type="radio" name="gender" value="Female"> Female</label>
     </div>
 
     <div class="form-group">
       <label>Department:</label>
-      <label><input type="checkbox"> CSE</label>
-      <label><input type="checkbox"> IT</label>
-      <label><input type="checkbox"> ECE</label>
-      <label><input type="checkbox"> Civil</label>
-      <label><input type="checkbox"> Mech</label>
+      <label><input type="checkbox" name="dept" value="CSE"> CSE</label>
+      <label><input type="checkbox" name="dept" value="IT"> IT</label>
+      <label><input type="checkbox" name="dept" value="ECE"> ECE</label>
+      <label><input type="checkbox" name="dept" value="Civil"> Civil</label>
+      <label><input type="checkbox" name="dept" value="Mech"> Mech</label>
     </div>
 
     <div class="form-group">
       <label>Course:</label>
-      <select>
+      <select name="course">
         <option selected disabled>-- Select Current Course --</option>
         <option>B.Tech</option>
         <option>BCA</option>
@@ -159,23 +163,78 @@
 
     <div class="form-group">
       <label>Student Photo:</label>
-      <input type="file">
+      <input type="file" name="photo">
     </div>
 
     <div class="form-group">
       <label>City:</label>
-      <input type="text" placeholder="Enter City">
+      <input type="text" name="city" placeholder="Enter City">
     </div>
 
     <div class="form-group">
       <label>Address:</label>
-      <textarea rows="3" placeholder="Enter Full Address"></textarea>
+      <textarea name="address" rows="3" placeholder="Enter Full Address"></textarea>
     </div>
 
     <div class="btn-submit">
       <button type="submit">Register</button>
     </div>
   </form>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let isValid = true;
+      let requiredFields = ["roll", "fname", "lname", "father", "day", "month", "year", "mobile", "email", "city", "address"];
+      
+      // Remove previous red borders
+      requiredFields.forEach(name => {
+        const input = form.querySelector(`[name="${name}"]`);
+        input.classList.remove("error");
+      });
+
+      // Check for empty fields
+      requiredFields.forEach(name => {
+        const input = form.querySelector(`[name="${name}"]`);
+        if (!input.value.trim()) {
+          input.classList.add("error");
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Validate mobile (only digits, 10 digits)
+      const mobileInput = form.querySelector('[name="mobile"]');
+      if (!/^\d{10}$/.test(mobileInput.value)) {
+        mobileInput.classList.add("error");
+        alert("Please enter a valid 10-digit mobile number.");
+        return;
+      }
+
+      // Validate email format
+      const emailInput = form.querySelector('[name="email"]');
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(emailInput.value)) {
+        emailInput.classList.add("error");
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      alert("Form submitted successfully!");
+    });
+
+    // Allow only numbers in mobile field
+    document.querySelector('[name="mobile"]').addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "");
+    });
+  </script>
 
 </body>
 </html>
