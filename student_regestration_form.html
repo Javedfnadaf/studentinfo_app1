@@ -34,7 +34,6 @@
 
     .form-group label {
       width: 200px;
-      font-weight: ;
     }
 
     .form-group input,
@@ -189,14 +188,12 @@
 
       let isValid = true;
       let requiredFields = ["roll", "fname", "lname", "father", "day", "month", "year", "mobile", "email", "city", "address"];
-      
-      // Remove previous red borders
+
       requiredFields.forEach(name => {
         const input = form.querySelector(`[name="${name}"]`);
         input.classList.remove("error");
       });
 
-      // Check for empty fields
       requiredFields.forEach(name => {
         const input = form.querySelector(`[name="${name}"]`);
         if (!input.value.trim()) {
@@ -210,7 +207,6 @@
         return;
       }
 
-      // Validate mobile (only digits, 10 digits)
       const mobileInput = form.querySelector('[name="mobile"]');
       if (!/^\d{10}$/.test(mobileInput.value)) {
         mobileInput.classList.add("error");
@@ -218,7 +214,6 @@
         return;
       }
 
-      // Validate email format
       const emailInput = form.querySelector('[name="email"]');
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(emailInput.value)) {
@@ -228,9 +223,10 @@
       }
 
       alert("Form submitted successfully!");
+      form.reset(); // Clears all form fields
+      location.reload(); // Refreshes the page
     });
 
-    // Allow only numbers in mobile field
     document.querySelector('[name="mobile"]').addEventListener("input", function () {
       this.value = this.value.replace(/\D/g, "");
     });
@@ -238,3 +234,4 @@
 
 </body>
 </html>
+
